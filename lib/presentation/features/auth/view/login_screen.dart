@@ -5,7 +5,9 @@ import 'package:iconsax/iconsax.dart';
 import 'package:qms_tv_app/core/constants/app_colors.dart';
 import 'package:qms_tv_app/core/extensions/sizedbox_extension.dart';
 import 'package:qms_tv_app/core/router/app_routes.dart';
+import 'package:qms_tv_app/core/utils/custom_snackbar.dart';
 import 'package:qms_tv_app/presentation/features/auth/provider/login_provider.dart';
+import 'package:qms_tv_app/presentation/features/auth/provider/validation_provider.dart';
 import 'package:qms_tv_app/presentation/widgets/custom_button_widget.dart';
 import 'package:qms_tv_app/presentation/widgets/custom_scaffold.dart';
 import 'package:qms_tv_app/presentation/widgets/custom_text_field.dart';
@@ -67,36 +69,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
         if (state.isAuthenticated && mounted) {
           context.go(kTvDisplayRoute);
         } else if (state.error != null && mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(state.error!),
-              backgroundColor: AppColors.kErrorColor,
-              behavior: SnackBarBehavior.floating,
-            ),
-          );
+          CustomSnackbar.showError(context, state.error!);
         }
       });
     }
-  }
-
-  String? _validateEmail(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Please enter your email';
-    }
-    if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(value)) {
-      return 'Please enter a valid email';
-    }
-    return null;
-  }
-
-  String? _validatePassword(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Please enter your password';
-    }
-    if (value.length < 6) {
-      return 'Password must be at least 6 characters';
-    }
-    return null;
   }
 
   @override
@@ -104,6 +80,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
     final loginState = ref.watch(loginProvider);
     final isLoading = loginState.isLoading;
     final size = MediaQuery.of(context).size;
+
+    final validator = ref.read(validationProvider.notifier);
 
     return CustomScaffold(
       backgroundColor: AppColors.kBackgroundColor,
@@ -129,8 +107,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
                             begin: Alignment.topLeft,
                             end: Alignment.bottomRight,
                             colors: [
-                              AppColors.kPrimaryColor.withOpacity(0.1),
-                              AppColors.kSecondaryColor.withOpacity(0.1),
+                              AppColors.kPrimaryColor.withValues(alpha: 0.1),
+                              AppColors.kSecondaryColor.withValues(alpha: 0.1),
                             ],
                           ),
                           borderRadius: BorderRadius.circular(20),
@@ -145,8 +123,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
                                 borderRadius: BorderRadius.circular(20),
                                 boxShadow: [
                                   BoxShadow(
-                                    color: AppColors.kPrimaryColor.withOpacity(
-                                      0.3,
+                                    color: AppColors.kPrimaryColor.withValues(
+                                      alpha: 0.3,
                                     ),
                                     blurRadius: 20,
                                     offset: const Offset(0, 10),
@@ -192,7 +170,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
                           borderRadius: BorderRadius.circular(16),
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.black.withOpacity(0.05),
+                              color: Colors.black.withValues(alpha: 0.05),
                               blurRadius: 20,
                               offset: const Offset(0, 4),
                             ),
@@ -232,7 +210,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
                               ),
                               keyboardType: TextInputType.emailAddress,
                               textInputAction: TextInputAction.next,
-                              validator: _validateEmail,
+                              validator: validator.validateEmail,
                               enabled: !isLoading,
                             ),
 
@@ -262,7 +240,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
                               ),
                               obscureText: _obscurePassword,
                               textInputAction: TextInputAction.done,
-                              validator: _validatePassword,
+                              validator: validator.validatePassword,
                               enabled: !isLoading,
                               onFieldSubmitted: (_) => _handleLogin(),
                             ),
