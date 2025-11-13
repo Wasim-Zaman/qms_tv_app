@@ -5,7 +5,7 @@ import 'package:iconsax/iconsax.dart';
 import 'package:qms_tv_app/core/constants/app_colors.dart';
 import 'package:qms_tv_app/core/extensions/sizedbox_extension.dart';
 import 'package:qms_tv_app/presentation/features/auth/view/login_screen.dart';
-import 'package:qms_tv_app/presentation/features/patients/view/tv_display_screen.dart';
+import 'package:qms_tv_app/presentation/features/patients/view/tv_display_screen_responsive.dart';
 import 'package:qms_tv_app/presentation/widgets/custom_button_widget.dart';
 import 'package:qms_tv_app/presentation/widgets/custom_scaffold.dart';
 
