@@ -1,0 +1,9 @@
+{
+    "workbench.colorCustomizations": {
+        "activityBar.background": "#1C3319",
+        "titleBar.activeBackground": "#274723",
+        "titleBar.activeForeground": "#F8FBF7"
+    },
+    "dart.flutterSdkPath": "/Users/wasimzaman/.puro/envs/3.38.0/flutter",
+    "dart.sdkPath": "/Users/wasimzaman/.puro/envs/3.38.0/flutter/bin/cache/dart-sdk"
+}
