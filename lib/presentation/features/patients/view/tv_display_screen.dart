@@ -19,7 +19,29 @@ class TvDisplayScreen extends ConsumerStatefulWidget {
   ConsumerState<TvDisplayScreen> createState() => _TvDisplayScreenState();
 }
 
-class _TvDisplayScreenState extends ConsumerState<TvDisplayScreen> {
+class _TvDisplayScreenState extends ConsumerState<TvDisplayScreen>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _pulseController;
+  late Animation<double> _pulseAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    _pulseController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 2),
+    )..repeat(reverse: true);
+    _pulseAnimation = Tween<double>(begin: 0.8, end: 1.0).animate(
+      CurvedAnimation(parent: _pulseController, curve: Curves.easeInOut),
+    );
+  }
+
+  @override
+  void dispose() {
+    _pulseController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final patientsAsync = ref.watch(patientsProvider);

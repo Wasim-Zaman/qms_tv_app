@@ -15,7 +15,7 @@ class UserRepo {
     final loginData = {"email": email, "password": password};
 
     return _apiClient.post<Map<String, dynamic>>(
-      '/user/login',
+      '/v1/user/login',
       data: loginData,
       parser: (data) => data as Map<String, dynamic>,
     );

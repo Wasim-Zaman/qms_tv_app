@@ -5,6 +5,7 @@ import 'package:iconsax/iconsax.dart';
 import 'package:qms_tv_app/core/constants/app_colors.dart';
 import 'package:qms_tv_app/core/extensions/sizedbox_extension.dart';
 import 'package:qms_tv_app/presentation/features/auth/view/login_screen.dart';
+import 'package:qms_tv_app/presentation/features/patients/view/tv_display_screen.dart';
 import 'package:qms_tv_app/presentation/widgets/custom_button_widget.dart';
 import 'package:qms_tv_app/presentation/widgets/custom_scaffold.dart';
 
@@ -25,6 +26,14 @@ final goRouterProvider = Provider<GoRouter>((ref) {
         name: kLoginRouteName,
         pageBuilder: (context, state) {
           return MaterialPage(key: state.pageKey, child: const LoginScreen());
+        },
+      ),
+
+      GoRoute(
+        path: kTvDisplayRoute,
+        name: kTvDisplayRouteName,
+        pageBuilder: (context, state) {
+          return MaterialPage(child: TvDisplayScreen());
         },
       ),
 
@@ -50,10 +59,17 @@ final goRouterProvider = Provider<GoRouter>((ref) {
               style: const TextStyle(fontSize: 16),
             ),
             16.heightBox,
-            CustomButton(text: "Go Back", onPressed: () => context.pop()),
+            CustomButton(
+              text: "Go Back",
+              height: 36,
+              width: 200,
+              onPressed: () => context.pop(),
+            ),
             12.heightBox,
             CustomOutlinedButton(
               text: "Go to Sign In",
+              height: 36,
+              width: 200,
               onPressed: () => context.go(kLoginRoute),
             ),
           ],
