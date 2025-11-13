@@ -5,7 +5,7 @@ import 'package:qms_tv_app/core/constants/app_colors.dart';
 import 'package:qms_tv_app/core/extensions/sizedbox_extension.dart';
 import 'package:qms_tv_app/presentation/features/patients/models/patient_model.dart';
 
-/// Desktop/TV version of patient card - horizontal table row layout
+/// Desktop/TV version of patient card - Large prominent display layout
 class PatientCardDesktop extends StatelessWidget {
   final PatientModel patient;
   final int index;
@@ -23,149 +23,193 @@ class PatientCardDesktop extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 4),
-      padding: const EdgeInsets.all(16),
+      margin: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+      padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
-        color: AppColors.kBlueGreyColor.withValues(alpha: 0.3),
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: statusColor.withValues(alpha: 0.3), width: 2),
+        color: AppColors.kDarkSurfaceColor,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: statusColor.withValues(alpha: 0.5), width: 3),
+        boxShadow: [
+          BoxShadow(
+            color: statusColor.withValues(alpha: 0.2),
+            blurRadius: 16,
+            spreadRadius: 2,
+          ),
+        ],
       ),
       child: Row(
         children: [
-          // Index
-          Expanded(
-            flex: 1,
-            child: Text(
-              '${index + 1}',
-              style: const TextStyle(
-                color: AppColors.kDarkTextSecondaryColor,
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-          ),
-          // Ticket Number
+          // Left: Ticket Number - Large and Prominent
           Expanded(
             flex: 2,
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-              decoration: BoxDecoration(
-                color: AppColors.kPrimaryColor,
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: Text(
-                '#${patient.ticketNumber}',
-                style: const TextStyle(
-                  color: AppColors.kTextOnPrimaryColor,
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
-                textAlign: TextAlign.center,
-              ),
-            ),
-          ),
-          8.widthBox,
-          // Patient Name
-          Expanded(
-            flex: 3,
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  patient.name,
-                  style: const TextStyle(
-                    color: AppColors.kTextOnPrimaryColor,
+                  'Ticket #',
+                  style: TextStyle(
+                    color: AppColors.kDarkTextTertiaryColor,
                     fontSize: 18,
-                    fontWeight: FontWeight.bold,
+                    fontWeight: FontWeight.w500,
                   ),
                 ),
-                4.heightBox,
-                Text(
-                  'MRN: ${patient.mrnNumber}',
-                  style: const TextStyle(
-                    color: AppColors.kDarkTextTertiaryColor,
-                    fontSize: 14,
+                8.heightBox,
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 24,
+                    vertical: 16,
+                  ),
+                  decoration: BoxDecoration(
+                    color: AppColors.kPrimaryColor,
+                    borderRadius: BorderRadius.circular(12),
+                    boxShadow: [
+                      BoxShadow(
+                        color: AppColors.kPrimaryColor.withValues(alpha: 0.3),
+                        blurRadius: 12,
+                        spreadRadius: 2,
+                      ),
+                    ],
+                  ),
+                  child: Text(
+                    patient.ticketNumber.toString(),
+                    style: const TextStyle(
+                      color: AppColors.kTextOnPrimaryColor,
+                      fontSize: 56,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: 2,
+                    ),
+                    textAlign: TextAlign.center,
                   ),
                 ),
               ],
             ),
           ),
-          // Department
+          24.widthBox,
+          // Middle: Patient Details
           Expanded(
-            flex: 2,
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-              decoration: BoxDecoration(
-                color: AppColors.kInfoColor.withValues(alpha: 0.2),
-                borderRadius: BorderRadius.circular(8),
-                border: Border.all(
-                  color: AppColors.kInfoColor.withValues(alpha: 0.5),
+            flex: 3,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                // Patient Name
+                Text(
+                  patient.name,
+                  style: const TextStyle(
+                    color: AppColors.kTextOnPrimaryColor,
+                    fontSize: 32,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
-              ),
-              child: Text(
-                patient.department.deptname,
-                style: const TextStyle(
-                  color: AppColors.kInfoColor,
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
+                12.heightBox,
+                // MRN
+                Row(
+                  children: [
+                    const Icon(
+                      Iconsax.user,
+                      color: AppColors.kInfoColor,
+                      size: 24,
+                    ),
+                    12.widthBox,
+                    Text(
+                      'MRN: ${patient.mrnNumber}',
+                      style: const TextStyle(
+                        color: AppColors.kDarkTextSecondaryColor,
+                        fontSize: 20,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ],
                 ),
-                textAlign: TextAlign.center,
-              ),
-            ),
-          ),
-          8.widthBox,
-          // Status
-          Expanded(
-            flex: 2,
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-              decoration: BoxDecoration(
-                color: statusColor.withValues(alpha: 0.2),
-                borderRadius: BorderRadius.circular(8),
-                border: Border.all(color: statusColor.withValues(alpha: 0.5)),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(statusIcon, color: statusColor, size: 16),
-                  4.widthBox,
-                  Flexible(
-                    child: Text(
-                      patient.status,
-                      style: TextStyle(
-                        color: statusColor,
-                        fontSize: 14,
+                12.heightBox,
+                // Department
+                Row(
+                  children: [
+                    const Icon(
+                      Iconsax.hospital,
+                      color: AppColors.kInfoColor,
+                      size: 24,
+                    ),
+                    12.widthBox,
+                    Text(
+                      patient.department.deptname,
+                      style: const TextStyle(
+                        color: AppColors.kInfoColor,
+                        fontSize: 20,
                         fontWeight: FontWeight.w600,
                       ),
+                      maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
-                  ),
-                ],
-              ),
+                  ],
+                ),
+              ],
             ),
           ),
-          8.widthBox,
-          // Call Time
+          24.widthBox,
+          // Right: Status and Time
           Expanded(
             flex: 2,
-            child: Row(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const Icon(
-                  Iconsax.clock,
-                  color: AppColors.kDarkTextTertiaryColor,
-                  size: 16,
-                ),
-                4.widthBox,
-                Text(
-                  patient.firstCallTime != null
-                      ? DateFormat(
-                          'HH:mm',
-                        ).format(DateTime.parse(patient.firstCallTime!))
-                      : '--:--',
-                  style: const TextStyle(
-                    color: AppColors.kDarkTextSecondaryColor,
-                    fontSize: 14,
+                // Status Badge
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20,
+                    vertical: 16,
                   ),
+                  decoration: BoxDecoration(
+                    color: statusColor.withValues(alpha: 0.15),
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(
+                      color: statusColor.withValues(alpha: 0.6),
+                      width: 2,
+                    ),
+                  ),
+                  child: Column(
+                    children: [
+                      Icon(statusIcon, color: statusColor, size: 40),
+                      8.heightBox,
+                      Text(
+                        patient.status,
+                        style: TextStyle(
+                          color: statusColor,
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
+                  ),
+                ),
+                24.heightBox,
+                // Call Time
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Icon(
+                      Iconsax.clock,
+                      color: AppColors.kDarkTextTertiaryColor,
+                      size: 24,
+                    ),
+                    8.widthBox,
+                    Text(
+                      patient.firstCallTime != null
+                          ? DateFormat(
+                              'HH:mm',
+                            ).format(DateTime.parse(patient.firstCallTime!))
+                          : '--:--',
+                      style: const TextStyle(
+                        color: AppColors.kDarkTextSecondaryColor,
+                        fontSize: 20,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
