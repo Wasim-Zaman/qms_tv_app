@@ -8,7 +8,7 @@ import 'package:qms_tv_app/presentation/features/connectivity/view/no_internet_s
 import 'package:qms_tv_app/presentation/widgets/custom_scaffold.dart';
 
 import 'core/constants/app_themes.dart';
-import 'core/router/app_router.dart' hide CustomScaffold;
+import 'core/router/app_router.dart';
 import 'presentation/widgets/custom_button_widget.dart';
 
 class MyApp extends ConsumerWidget {
@@ -17,7 +17,7 @@ class MyApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return MaterialApp.router(
-      title: 'PCQ FIR Pilot App',
+      title: 'QMS TV App',
       theme: AppThemes.lightTheme,
       darkTheme: AppThemes.darkTheme,
       themeMode: ThemeMode.system,
