@@ -5,15 +5,15 @@ import 'package:flutter/material.dart';
 class AppColors {
   AppColors._(); // Private constructor to prevent instantiation
 
-  // Primary Colors
-  static const Color kPrimaryColor = Color(0xFF2563EB); // Blue
-  static const Color kPrimaryLightColor = Color(0xFF60A5FA);
-  static const Color kPrimaryDarkColor = Color(0xFF1E40AF);
+  // Primary Colors - Changed to Green
+  static const Color kPrimaryColor = Color(0xFF10B981); // Emerald Green
+  static const Color kPrimaryLightColor = Color(0xFF34D399);
+  static const Color kPrimaryDarkColor = Color(0xFF059669);
 
-  // Secondary Colors
-  static const Color kSecondaryColor = Color(0xFF10B981); // Green
-  static const Color kSecondaryLightColor = Color(0xFF34D399);
-  static const Color kSecondaryDarkColor = Color(0xFF059669);
+  // Secondary Colors - Complementary Teal
+  static const Color kSecondaryColor = Color(0xFF14B8A6); // Teal
+  static const Color kSecondaryLightColor = Color(0xFF2DD4BF);
+  static const Color kSecondaryDarkColor = Color(0xFF0D9488);
 
   // Background Colors
   static const Color kBackgroundColor = Color(0xFFF9FAFB);
@@ -30,7 +30,7 @@ class AppColors {
   static const Color kSuccessColor = Color(0xFF10B981);
   static const Color kErrorColor = Color(0xFFEF4444);
   static const Color kWarningColor = Color(0xFFF59E0B);
-  static const Color kInfoColor = Color(0xFF3B82F6);
+  static const Color kInfoColor = Color(0xFF14B8A6); // Changed to Teal
   static const Color kPurpleColor = Color(0xFF9C27B0);
   static const Color kGreyColor = Color(0xFF9E9E9E);
   static const Color kOrangeColor = Color(0xFFFF9800);
@@ -45,8 +45,8 @@ class AppColors {
   static const Color kBorderLightColor = Color(0xFFF3F4F6);
   static const Color kDividerColor = Color(0xFFE5E7EB);
 
-  // Icon Colors
-  static const Color kIconPrimaryColor = Color(0xFF2563EB);
+  // Icon Colors - Updated to Green
+  static const Color kIconPrimaryColor = Color(0xFF10B981);
   static const Color kIconSecondaryColor = Color(0xFF6B7280);
   static const Color kIconOnPrimaryColor = Color(0xFFFFFFFF);
 
@@ -61,10 +61,10 @@ class AppColors {
   // Special Colors
   static const Color kDisabledColor = Color(0xFFD1D5DB);
   static const Color kDisabledTextColor = Color(0xFF9CA3AF);
-  static const Color kHighlightColor = Color(0xFFEFF6FF);
+  static const Color kHighlightColor = Color(0xFFECFDF5); // Light green tint
   static const Color kHoverColor = Color(0xFFF3F4F6);
 
-  // Gradient Colors
+  // Gradient Colors - Updated to Green
   static const LinearGradient kPrimaryGradient = LinearGradient(
     colors: [kPrimaryColor, kPrimaryDarkColor],
     begin: Alignment.topLeft,
@@ -77,7 +77,7 @@ class AppColors {
     end: Alignment.bottomRight,
   );
 
-  // Dark Theme Colors
+  // Dark Theme Colors - Updated to Green
   static const Color kDarkBackgroundColor = Color(0xFF111827);
   static const Color kDarkSurfaceColor = Color(0xFF1F2937);
   static const Color kDarkTextPrimaryColor = Color(0xFFF9FAFB);
@@ -86,6 +86,8 @@ class AppColors {
   static const Color kDarkBorderColor = Color(0xFF374151);
   static const Color kDarkBorderLightColor = Color(0xFF4B5563);
   static const Color kDarkShadowColor = Color(0x40000000);
-  static const Color kDarkPrimaryColor = Color(0xFF60A5FA);
-  static const Color kDarkPrimaryDarkColor = Color(0xFF1E40AF);
+  static const Color kDarkPrimaryColor = Color(
+    0xFF34D399,
+  ); // Light green for dark theme
+  static const Color kDarkPrimaryDarkColor = Color(0xFF059669);
 }
