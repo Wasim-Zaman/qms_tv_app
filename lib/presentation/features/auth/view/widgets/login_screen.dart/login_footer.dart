@@ -11,7 +11,7 @@ class LoginFooter extends StatelessWidget {
       'Hospital Queue Management System',
       style: Theme.of(
         context,
-      ).textTheme.bodySmall?.copyWith(color: AppColors.kTextTertiaryColor),
+      ).textTheme.bodySmall?.copyWith(color: AppColors.kDarkTextSecondaryColor),
       textAlign: TextAlign.center,
     );
   }

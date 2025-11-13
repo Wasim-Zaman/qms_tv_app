@@ -16,8 +16,8 @@ class LogoHeader extends StatelessWidget {
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            AppColors.kPrimaryColor.withValues(alpha: 0.1),
-            AppColors.kSecondaryColor.withValues(alpha: 0.1),
+            AppColors.kPrimaryColor.withValues(alpha: 0.3),
+            AppColors.kSecondaryColor.withValues(alpha: 0.3),
           ],
         ),
         borderRadius: BorderRadius.circular(20),
@@ -32,7 +32,7 @@ class LogoHeader extends StatelessWidget {
             'QMS TV Display',
             style: Theme.of(context).textTheme.headlineMedium?.copyWith(
               fontWeight: FontWeight.bold,
-              color: AppColors.kTextPrimaryColor,
+              color: AppColors.kDarkTextPrimaryColor,
             ),
             textAlign: TextAlign.center,
           ),

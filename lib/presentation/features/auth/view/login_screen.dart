@@ -79,7 +79,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
     final validator = ref.read(validationProvider.notifier);
 
     return CustomScaffold(
-      backgroundColor: AppColors.kBackgroundColor,
+      backgroundColor: AppColors.kDarkBackgroundColor,
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(

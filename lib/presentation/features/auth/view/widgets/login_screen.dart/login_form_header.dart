@@ -13,17 +13,16 @@ class LoginFormHeader extends StatelessWidget {
       children: [
         Text(
           'Welcome Back',
-          style: Theme.of(context).textTheme.titleLarge?.copyWith(
-            fontWeight: FontWeight.bold,
-            color: AppColors.kTextPrimaryColor,
-          ),
+          style: Theme.of(
+            context,
+          ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
           textAlign: TextAlign.center,
         ),
         8.heightBox,
         Text(
           'Sign in to access the TV display',
           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-            color: AppColors.kTextSecondaryColor,
+            color: AppColors.kDarkTextSecondaryColor,
           ),
           textAlign: TextAlign.center,
         ),
