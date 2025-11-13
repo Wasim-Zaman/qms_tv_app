@@ -40,7 +40,8 @@ class PatientsNotifier extends AsyncNotifier<List<PatientModel>> {
   }
 
   Future<void> refresh() async {
-    state = const AsyncValue.loading();
+    // Silent refresh - keep existing data visible while fetching
+    // This prevents the loading indicator from showing during auto-refresh
     state = await AsyncValue.guard(() => _fetchPatients());
   }
 
