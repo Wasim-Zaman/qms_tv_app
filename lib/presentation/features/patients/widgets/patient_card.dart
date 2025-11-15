@@ -56,6 +56,7 @@ class _PatientCardDesktopState extends State<PatientCardDesktop>
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return ConstrainedBox(
       constraints: const BoxConstraints(maxWidth: 620),
       child: ScaleTransition(
@@ -66,7 +67,9 @@ class _PatientCardDesktopState extends State<PatientCardDesktop>
             margin: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
             padding: const EdgeInsets.all(40),
             decoration: BoxDecoration(
-              color: AppColors.kDarkSurfaceColor,
+              color: isDark
+                  ? AppColors.kDarkSurfaceColor
+                  : AppColors.kSurfaceColor,
               borderRadius: BorderRadius.circular(28),
               border: Border.all(
                 color: widget.statusColor.withValues(alpha: 0.5),
@@ -80,7 +83,8 @@ class _PatientCardDesktopState extends State<PatientCardDesktop>
                   offset: const Offset(0, 20),
                 ),
                 BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.2),
+                  color: (isDark ? Colors.black : AppColors.kShadowColor)
+                      .withValues(alpha: 0.2),
                   blurRadius: 20,
                   spreadRadius: 0,
                 ),
@@ -93,13 +97,29 @@ class _PatientCardDesktopState extends State<PatientCardDesktop>
                 Text(
                   'Ticket Number',
                   style: TextStyle(
-                    color: AppColors.kDarkTextTertiaryColor,
+                    color: isDark
+                        ? AppColors.kDarkTextTertiaryColor
+                        : AppColors.kTextTertiaryColor,
                     fontSize: 18,
                     fontWeight: FontWeight.w500,
                     letterSpacing: 1.2,
                   ),
                   textAlign: TextAlign.center,
                 ),
+                if (widget.patient.ticketArabic?.isNotEmpty ?? false) ...[
+                  8.heightBox,
+                  Text(
+                    widget.patient.ticketArabic!,
+                    style: TextStyle(
+                      color: isDark
+                          ? AppColors.kDarkTextTertiaryColor
+                          : AppColors.kTextTertiaryColor,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
                 20.heightBox,
                 // Ticket Number Container with Gradient
                 Container(
@@ -110,8 +130,12 @@ class _PatientCardDesktopState extends State<PatientCardDesktop>
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
                       colors: [
-                        AppColors.kPrimaryColor,
-                        AppColors.kPrimaryLightColor,
+                        isDark
+                            ? AppColors.kDarkPrimaryColor
+                            : AppColors.kPrimaryColor,
+                        isDark
+                            ? AppColors.kDarkPrimaryDarkColor
+                            : AppColors.kPrimaryLightColor,
                       ],
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
@@ -119,7 +143,11 @@ class _PatientCardDesktopState extends State<PatientCardDesktop>
                     borderRadius: BorderRadius.circular(18),
                     boxShadow: [
                       BoxShadow(
-                        color: AppColors.kPrimaryColor.withValues(alpha: 0.5),
+                        color:
+                            (isDark
+                                    ? AppColors.kDarkPrimaryColor
+                                    : AppColors.kPrimaryColor)
+                                .withValues(alpha: 0.5),
                         blurRadius: 24,
                         spreadRadius: 4,
                         offset: const Offset(0, 12),
@@ -141,8 +169,10 @@ class _PatientCardDesktopState extends State<PatientCardDesktop>
                 // Patient Name
                 Text(
                   widget.patient.name,
-                  style: const TextStyle(
-                    color: AppColors.kTextOnPrimaryColor,
+                  style: TextStyle(
+                    color: isDark
+                        ? AppColors.kDarkTextPrimaryColor
+                        : AppColors.kTextPrimaryColor,
                     fontSize: 36,
                     fontWeight: FontWeight.w800,
                     letterSpacing: 0.5,
@@ -151,6 +181,22 @@ class _PatientCardDesktopState extends State<PatientCardDesktop>
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                 ),
+                if (widget.patient.nameArabic?.isNotEmpty ?? false) ...[
+                  12.heightBox,
+                  Text(
+                    widget.patient.nameArabic!,
+                    style: TextStyle(
+                      color: isDark
+                          ? AppColors.kDarkTextSecondaryColor
+                          : AppColors.kTextSecondaryColor,
+                      fontSize: 28,
+                      fontWeight: FontWeight.w700,
+                    ),
+                    textAlign: TextAlign.center,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
                 18.heightBox,
                 // Department Badge
                 if (widget.patient.department != null)
@@ -172,26 +218,51 @@ class _PatientCardDesktopState extends State<PatientCardDesktop>
                         width: 1.5,
                       ),
                     ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.center,
+                    child: Column(
                       children: [
-                        const Icon(
-                          Iconsax.hospital,
-                          color: AppColors.kInfoColor,
-                          size: 24,
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Icon(
+                              Iconsax.hospital,
+                              color: AppColors.kInfoColor,
+                              size: 24,
+                            ),
+                            14.widthBox,
+                            Flexible(
+                              child: Text(
+                                widget.patient.department?.deptname ?? 'N/A',
+                                style: const TextStyle(
+                                  color: AppColors.kInfoColor,
+                                  fontSize: 19,
+                                  fontWeight: FontWeight.w600,
+                                  letterSpacing: 0.3,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          ],
                         ),
-                        14.widthBox,
-                        Text(
-                          widget.patient.department?.deptname ?? 'N/A',
-                          style: const TextStyle(
-                            color: AppColors.kInfoColor,
-                            fontSize: 19,
-                            fontWeight: FontWeight.w600,
-                            letterSpacing: 0.3,
+                        if (widget
+                                .patient
+                                .department
+                                ?.deptnameArabic
+                                ?.isNotEmpty ??
+                            false) ...[
+                          8.heightBox,
+                          Text(
+                            widget.patient.department!.deptnameArabic!,
+                            style: TextStyle(
+                              color: AppColors.kInfoColor.withValues(
+                                alpha: 0.85,
+                              ),
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                            ),
+                            textAlign: TextAlign.center,
                           ),
-                          textAlign: TextAlign.center,
-                        ),
+                        ],
                       ],
                     ),
                   ),
@@ -203,7 +274,10 @@ class _PatientCardDesktopState extends State<PatientCardDesktop>
                     gradient: LinearGradient(
                       colors: [
                         Colors.transparent,
-                        AppColors.kDarkTextTertiaryColor.withValues(alpha: 0.2),
+                        (isDark
+                                ? AppColors.kDarkTextTertiaryColor
+                                : AppColors.kTextTertiaryColor)
+                            .withValues(alpha: 0.2),
                         Colors.transparent,
                       ],
                     ),
@@ -214,13 +288,29 @@ class _PatientCardDesktopState extends State<PatientCardDesktop>
                 Text(
                   'PLEASE PROCEED TO',
                   style: TextStyle(
-                    color: AppColors.kDarkTextTertiaryColor,
+                    color: isDark
+                        ? AppColors.kDarkTextTertiaryColor
+                        : AppColors.kTextTertiaryColor,
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
                     letterSpacing: 2,
                   ),
                   textAlign: TextAlign.center,
                 ),
+                if (widget.patient.destinationArabic?.isNotEmpty ?? false) ...[
+                  6.heightBox,
+                  Text(
+                    'يرجى التوجه إلى',
+                    style: TextStyle(
+                      color: isDark
+                          ? AppColors.kDarkTextTertiaryColor
+                          : AppColors.kTextTertiaryColor,
+                      fontSize: 13,
+                      fontWeight: FontWeight.w500,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
                 16.heightBox,
                 Container(
                   padding: const EdgeInsets.symmetric(
@@ -260,6 +350,18 @@ class _PatientCardDesktopState extends State<PatientCardDesktop>
                         ),
                         textAlign: TextAlign.center,
                       ),
+                      if (widget.patient.statusArabic?.isNotEmpty ?? false) ...[
+                        8.heightBox,
+                        Text(
+                          widget.patient.statusArabic!,
+                          style: TextStyle(
+                            color: widget.statusColor.withValues(alpha: 0.9),
+                            fontSize: 22,
+                            fontWeight: FontWeight.w700,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
                     ],
                   ),
                 ),
@@ -505,11 +607,12 @@ class PatientCardMobile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 6, horizontal: 12),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppColors.kDarkSurfaceColor,
+        color: isDark ? AppColors.kDarkSurfaceColor : AppColors.kSurfaceColor,
         borderRadius: BorderRadius.circular(12),
         border: Border.all(color: statusColor.withValues(alpha: 0.5), width: 2),
         boxShadow: [
@@ -698,6 +801,7 @@ class _PatientCardSideState extends State<PatientCardSide>
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return SlideTransition(
       position: Tween<Offset>(
         begin: const Offset(-1, 0),
@@ -710,7 +814,9 @@ class _PatientCardSideState extends State<PatientCardSide>
           duration: const Duration(milliseconds: 300),
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-            color: AppColors.kDarkSurfaceColor,
+            color: isDark
+                ? AppColors.kDarkSurfaceColor
+                : AppColors.kSurfaceColor,
             borderRadius: BorderRadius.circular(14),
             border: Border.all(
               color: widget.statusColor.withValues(alpha: 0.4),
@@ -724,7 +830,8 @@ class _PatientCardSideState extends State<PatientCardSide>
                 offset: const Offset(0, 8),
               ),
               BoxShadow(
-                color: Colors.black.withValues(alpha: 0.1),
+                color: (isDark ? Colors.black : AppColors.kShadowColor)
+                    .withValues(alpha: 0.1),
                 blurRadius: 8,
                 spreadRadius: 0,
               ),
@@ -742,16 +849,24 @@ class _PatientCardSideState extends State<PatientCardSide>
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: [
-                      AppColors.kPrimaryColor.withValues(alpha: 0.2),
-                      AppColors.kPrimaryColor.withValues(alpha: 0.1),
+                      (isDark
+                              ? AppColors.kDarkPrimaryColor
+                              : AppColors.kPrimaryColor)
+                          .withValues(alpha: 0.2),
+                      (isDark
+                              ? AppColors.kDarkPrimaryColor
+                              : AppColors.kPrimaryColor)
+                          .withValues(alpha: 0.1),
                     ],
                   ),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Text(
                   widget.patient.ticketNumber.toString(),
-                  style: const TextStyle(
-                    color: AppColors.kPrimaryColor,
+                  style: TextStyle(
+                    color: isDark
+                        ? AppColors.kDarkPrimaryColor
+                        : AppColors.kPrimaryColor,
                     fontSize: 26,
                     fontWeight: FontWeight.w900,
                     letterSpacing: 1,
@@ -763,8 +878,10 @@ class _PatientCardSideState extends State<PatientCardSide>
               // Patient Name
               Text(
                 widget.patient.name,
-                style: const TextStyle(
-                  color: AppColors.kTextOnPrimaryColor,
+                style: TextStyle(
+                  color: isDark
+                      ? AppColors.kDarkTextPrimaryColor
+                      : AppColors.kTextPrimaryColor,
                   fontSize: 15,
                   fontWeight: FontWeight.w700,
                   letterSpacing: 0.2,

@@ -2,11 +2,13 @@ class Department {
   final String tblDepartmentID;
   final String deptcode;
   final String deptname;
+  final String? deptnameArabic;
 
   Department({
     required this.tblDepartmentID,
     required this.deptcode,
     required this.deptname,
+    this.deptnameArabic,
   });
 
   factory Department.fromJson(Map<String, dynamic> json) {
@@ -14,6 +16,7 @@ class Department {
       tblDepartmentID: json['tblDepartmentID'] as String,
       deptcode: json['deptcode'] as String,
       deptname: json['deptname'] as String,
+      deptnameArabic: _extractArabicValue(json, 'deptname'),
     );
   }
 
@@ -22,8 +25,30 @@ class Department {
       'tblDepartmentID': tblDepartmentID,
       'deptcode': deptcode,
       'deptname': deptname,
+      if (deptnameArabic != null) 'deptnameArabic': deptnameArabic,
     };
   }
+}
+
+/// Helper function to extract Arabic values from JSON
+String? _extractArabicValue(Map<String, dynamic> json, String baseKey) {
+  // Try common Arabic field patterns
+  final patterns = [
+    '${baseKey}_arabic',
+    '${baseKey}_ar',
+    '${baseKey}Arabic',
+    'arabic_$baseKey',
+    'ar_$baseKey',
+  ];
+
+  for (final pattern in patterns) {
+    final value = json[pattern];
+    if (value != null && value is String && value.isNotEmpty) {
+      return value;
+    }
+  }
+
+  return null;
 }
 
 class User {
@@ -49,14 +74,17 @@ class User {
 class PatientModel {
   final String id;
   final String name;
+  final String? nameArabic;
   final String? nationality;
   final String? sex;
   final String? idNumber;
   final int? age;
   final String? mobileNumber;
   final String status;
+  final String? statusArabic;
   final String? cheifComplaint;
   final String? ticket;
+  final String? ticketArabic;
   final int ticketNumber;
   final String? barcode;
   final String? bloodGroup;
@@ -77,6 +105,7 @@ class PatientModel {
   final String? endTime;
   final String? createdAt;
   final String? updatedAt;
+  final String? destinationArabic;
   final Department? department;
   final User? user;
   final List<dynamic>? vitalSigns;
@@ -84,14 +113,17 @@ class PatientModel {
   PatientModel({
     required this.id,
     required this.name,
+    this.nameArabic,
     this.nationality,
     this.sex,
     this.idNumber,
     this.age,
     this.mobileNumber,
     required this.status,
+    this.statusArabic,
     this.cheifComplaint,
     this.ticket,
+    this.ticketArabic,
     required this.ticketNumber,
     this.barcode,
     this.bloodGroup,
@@ -112,6 +144,7 @@ class PatientModel {
     this.endTime,
     this.createdAt,
     this.updatedAt,
+    this.destinationArabic,
     this.department,
     this.user,
     this.vitalSigns,
@@ -121,14 +154,17 @@ class PatientModel {
     return PatientModel(
       id: json['id'] as String? ?? '',
       name: json['name'] as String? ?? 'Unknown',
+      nameArabic: _extractArabicValue(json, 'name'),
       nationality: json['nationality'] as String?,
       sex: json['sex'] as String?,
       idNumber: json['idNumber'] as String?,
       age: _toInt(json['age']),
       mobileNumber: json['mobileNumber'] as String?,
       status: json['status'] as String? ?? 'Unknown',
+      statusArabic: _extractArabicValue(json, 'status'),
       cheifComplaint: json['cheifComplaint'] as String?,
       ticket: json['ticket'] as String?,
+      ticketArabic: _extractArabicValue(json, 'ticket'),
       ticketNumber: _toInt(json['ticketNumber']) ?? 0,
       barcode: json['barcode'] as String?,
       bloodGroup: json['bloodGroup'] as String?,
@@ -149,6 +185,9 @@ class PatientModel {
       endTime: json['endTime'] as String?,
       createdAt: json['createdAt'] as String?,
       updatedAt: json['updatedAt'] as String?,
+      destinationArabic:
+          _extractArabicValue(json, 'destination') ??
+          _extractArabicValue(json, 'status'),
       department: json['department'] != null
           ? Department.fromJson(json['department'] as Map<String, dynamic>)
           : null,
@@ -163,14 +202,17 @@ class PatientModel {
     return {
       'id': id,
       'name': name,
+      if (nameArabic != null) 'nameArabic': nameArabic,
       'nationality': nationality,
       'sex': sex,
       'idNumber': idNumber,
       'age': age,
       'mobileNumber': mobileNumber,
       'status': status,
+      if (statusArabic != null) 'statusArabic': statusArabic,
       'cheifComplaint': cheifComplaint,
       'ticket': ticket,
+      if (ticketArabic != null) 'ticketArabic': ticketArabic,
       'ticketNumber': ticketNumber,
       'barcode': barcode,
       'bloodGroup': bloodGroup,
@@ -191,6 +233,7 @@ class PatientModel {
       'endTime': endTime,
       'createdAt': createdAt,
       'updatedAt': updatedAt,
+      if (destinationArabic != null) 'destinationArabic': destinationArabic,
       'department': department?.toJson(),
       'user': user?.toJson(),
       'vitalSigns': vitalSigns,

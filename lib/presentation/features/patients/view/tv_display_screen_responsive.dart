@@ -59,7 +59,6 @@ class _TvDisplayScreenState extends ConsumerState<TvDisplayScreen>
     final loginState = ref.watch(loginProvider);
 
     return CustomScaffold(
-      backgroundColor: AppColors.kDarkBackgroundColor,
       body: Column(
         children: [
           // Header

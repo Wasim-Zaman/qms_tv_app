@@ -62,12 +62,13 @@ class LoadingStateWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Center(
       child: Container(
         padding: EdgeInsets.all(isMobile ? 32 : 48),
         margin: EdgeInsets.all(isMobile ? 16 : 24),
         decoration: BoxDecoration(
-          color: AppColors.kDarkSurfaceColor,
+          color: isDark ? AppColors.kDarkSurfaceColor : AppColors.kSurfaceColor,
           borderRadius: BorderRadius.circular(16),
         ),
         child: Column(
@@ -110,12 +111,13 @@ class ErrorStateWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Center(
       child: Container(
         padding: EdgeInsets.all(isMobile ? 32 : 48),
         margin: EdgeInsets.all(isMobile ? 16 : 24),
         decoration: BoxDecoration(
-          color: AppColors.kDarkSurfaceColor,
+          color: isDark ? AppColors.kDarkSurfaceColor : AppColors.kSurfaceColor,
           borderRadius: BorderRadius.circular(16),
         ),
         child: Column(

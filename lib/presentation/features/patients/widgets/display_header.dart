@@ -20,6 +20,7 @@ class DisplayHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Container(
       padding: EdgeInsets.symmetric(
         horizontal: isMobile ? 16 : 32,
@@ -34,7 +35,7 @@ class DisplayHeader extends StatelessWidget {
         ),
         boxShadow: [
           BoxShadow(
-            color: AppColors.kDarkShadowColor,
+            color: isDark ? AppColors.kDarkShadowColor : AppColors.kShadowColor,
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
