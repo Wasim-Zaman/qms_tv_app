@@ -57,15 +57,30 @@ class _PatientCardDesktopState extends State<PatientCardDesktop>
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+    final isSmallScreen = screenWidth < 600;
+
+    // Responsive dimensions
+    final maxCardWidth = isSmallScreen ? screenWidth * 0.85 : 500.0;
+    final maxCardHeight = screenHeight * 0.8; // Take up 80% of screen height
+    final cardPadding = isSmallScreen ? 20.0 : 28.0;
+    final ticketFontSize = isSmallScreen ? 40.0 : 56.0;
+    final nameFontSize = isSmallScreen ? 22.0 : 28.0;
+    final arabicNameFontSize = isSmallScreen ? 18.0 : 22.0;
+
     return ConstrainedBox(
-      constraints: const BoxConstraints(maxWidth: 620),
+      constraints: BoxConstraints(
+        maxWidth: maxCardWidth,
+        maxHeight: maxCardHeight,
+      ),
       child: ScaleTransition(
         scale: _scaleAnimation,
         child: FadeTransition(
           opacity: _opacityAnimation,
           child: Container(
             margin: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-            padding: const EdgeInsets.all(40),
+            padding: EdgeInsets.all(cardPadding),
             decoration: BoxDecoration(
               color: isDark
                   ? AppColors.kDarkSurfaceColor
@@ -91,6 +106,7 @@ class _PatientCardDesktopState extends State<PatientCardDesktop>
               ],
             ),
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
                 // Ticket Number Label
@@ -120,12 +136,12 @@ class _PatientCardDesktopState extends State<PatientCardDesktop>
                     textAlign: TextAlign.center,
                   ),
                 ],
-                20.heightBox,
+                12.heightBox,
                 // Ticket Number Container with Gradient
                 Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 36,
-                    vertical: 24,
+                  padding: EdgeInsets.symmetric(
+                    horizontal: isSmallScreen ? 20 : 28,
+                    vertical: isSmallScreen ? 14 : 18,
                   ),
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
@@ -156,16 +172,16 @@ class _PatientCardDesktopState extends State<PatientCardDesktop>
                   ),
                   child: Text(
                     widget.patient.ticketNumber.toString(),
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: AppColors.kTextOnPrimaryColor,
-                      fontSize: 72,
+                      fontSize: ticketFontSize,
                       fontWeight: FontWeight.w900,
-                      letterSpacing: 4,
+                      letterSpacing: 3,
                     ),
                     textAlign: TextAlign.center,
                   ),
                 ),
-                28.heightBox,
+                16.heightBox,
                 // Patient Name
                 Text(
                   widget.patient.name,
@@ -173,7 +189,7 @@ class _PatientCardDesktopState extends State<PatientCardDesktop>
                     color: isDark
                         ? AppColors.kDarkTextPrimaryColor
                         : AppColors.kTextPrimaryColor,
-                    fontSize: 36,
+                    fontSize: nameFontSize,
                     fontWeight: FontWeight.w800,
                     letterSpacing: 0.5,
                   ),
@@ -189,7 +205,7 @@ class _PatientCardDesktopState extends State<PatientCardDesktop>
                       color: isDark
                           ? AppColors.kDarkTextSecondaryColor
                           : AppColors.kTextSecondaryColor,
-                      fontSize: 28,
+                      fontSize: arabicNameFontSize,
                       fontWeight: FontWeight.w700,
                     ),
                     textAlign: TextAlign.center,
@@ -197,13 +213,13 @@ class _PatientCardDesktopState extends State<PatientCardDesktop>
                     overflow: TextOverflow.ellipsis,
                   ),
                 ],
-                18.heightBox,
+                10.heightBox,
                 // Department Badge
                 if (widget.patient.department != null)
                   Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 20,
-                      vertical: 12,
+                    padding: EdgeInsets.symmetric(
+                      horizontal: isSmallScreen ? 16 : 20,
+                      vertical: isSmallScreen ? 10 : 12,
                     ),
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
@@ -233,9 +249,9 @@ class _PatientCardDesktopState extends State<PatientCardDesktop>
                             Flexible(
                               child: Text(
                                 widget.patient.department?.deptname ?? 'N/A',
-                                style: const TextStyle(
+                                style: TextStyle(
                                   color: AppColors.kInfoColor,
-                                  fontSize: 19,
+                                  fontSize: isSmallScreen ? 14 : 16,
                                   fontWeight: FontWeight.w600,
                                   letterSpacing: 0.3,
                                 ),
@@ -266,7 +282,7 @@ class _PatientCardDesktopState extends State<PatientCardDesktop>
                       ],
                     ),
                   ),
-                24.heightBox,
+                14.heightBox,
                 // Divider
                 Container(
                   height: 1,
@@ -283,7 +299,7 @@ class _PatientCardDesktopState extends State<PatientCardDesktop>
                     ),
                   ),
                 ),
-                24.heightBox,
+                12.heightBox,
                 // Status and Instructions
                 Text(
                   'PLEASE PROCEED TO',
@@ -291,9 +307,9 @@ class _PatientCardDesktopState extends State<PatientCardDesktop>
                     color: isDark
                         ? AppColors.kDarkTextTertiaryColor
                         : AppColors.kTextTertiaryColor,
-                    fontSize: 14,
+                    fontSize: isSmallScreen ? 11 : 12,
                     fontWeight: FontWeight.w600,
-                    letterSpacing: 2,
+                    letterSpacing: 1.5,
                   ),
                   textAlign: TextAlign.center,
                 ),
@@ -311,11 +327,11 @@ class _PatientCardDesktopState extends State<PatientCardDesktop>
                     textAlign: TextAlign.center,
                   ),
                 ],
-                16.heightBox,
+                10.heightBox,
                 Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 24,
-                    vertical: 20,
+                  padding: EdgeInsets.symmetric(
+                    horizontal: isSmallScreen ? 18 : 24,
+                    vertical: isSmallScreen ? 16 : 20,
                   ),
                   decoration: BoxDecoration(
                     color: widget.statusColor.withValues(alpha: 0.08),
@@ -337,16 +353,16 @@ class _PatientCardDesktopState extends State<PatientCardDesktop>
                       Icon(
                         widget.statusIcon,
                         color: widget.statusColor,
-                        size: 44,
+                        size: isSmallScreen ? 36 : 44,
                       ),
                       10.heightBox,
                       Text(
                         widget.patient.status.toUpperCase(),
                         style: TextStyle(
                           color: widget.statusColor,
-                          fontSize: 28,
+                          fontSize: isSmallScreen ? 18 : 22,
                           fontWeight: FontWeight.w800,
-                          letterSpacing: 1,
+                          letterSpacing: 0.8,
                         ),
                         textAlign: TextAlign.center,
                       ),
@@ -356,7 +372,7 @@ class _PatientCardDesktopState extends State<PatientCardDesktop>
                           widget.patient.statusArabic!,
                           style: TextStyle(
                             color: widget.statusColor.withValues(alpha: 0.9),
-                            fontSize: 22,
+                            fontSize: 18,
                             fontWeight: FontWeight.w700,
                           ),
                           textAlign: TextAlign.center,
