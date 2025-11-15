@@ -20,7 +20,7 @@ class MyApp extends ConsumerWidget {
       title: 'QMS TV App',
       theme: AppThemes.lightTheme,
       darkTheme: AppThemes.darkTheme,
-      themeMode: ThemeMode.dark,
+      themeMode: ThemeMode.system,
       debugShowCheckedModeBanner: false,
       routerConfig: ref.watch(goRouterProvider),
       builder: (context, child) {

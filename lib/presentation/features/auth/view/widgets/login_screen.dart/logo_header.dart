@@ -9,6 +9,7 @@ class LogoHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Container(
       padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
@@ -25,14 +26,16 @@ class LogoHeader extends StatelessWidget {
       child: Column(
         children: [
           // Animated Icon Container
-          _buildIconContainer(),
+          _buildIconContainer(context),
           24.heightBox,
           // Title
           Text(
             'QMS TV Display',
             style: Theme.of(context).textTheme.headlineMedium?.copyWith(
               fontWeight: FontWeight.bold,
-              color: AppColors.kDarkTextPrimaryColor,
+              color: isDark
+                  ? AppColors.kDarkTextPrimaryColor
+                  : AppColors.kTextPrimaryColor,
             ),
             textAlign: TextAlign.center,
           ),
@@ -41,7 +44,9 @@ class LogoHeader extends StatelessWidget {
           Text(
             'Queue Management System',
             style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-              color: AppColors.kTextSecondaryColor,
+              color: isDark
+                  ? AppColors.kDarkTextSecondaryColor
+                  : AppColors.kTextSecondaryColor,
             ),
             textAlign: TextAlign.center,
           ),
@@ -50,7 +55,8 @@ class LogoHeader extends StatelessWidget {
     );
   }
 
-  Widget _buildIconContainer() {
+  Widget _buildIconContainer(context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
@@ -64,7 +70,13 @@ class LogoHeader extends StatelessWidget {
           ),
         ],
       ),
-      child: const Icon(Iconsax.monitor, size: 64, color: Colors.white),
+      child: Icon(
+        Iconsax.monitor,
+        size: 64,
+        color: isDark
+            ? AppColors.kDarkBackgroundColor
+            : AppColors.kBackgroundColor,
+      ),
     );
   }
 }

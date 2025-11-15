@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:qms_tv_app/core/constants/app_colors.dart';
 
 /// Login form container with card styling
 class LoginFormCard extends StatelessWidget {
@@ -8,6 +9,7 @@ class LoginFormCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Container(
       padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
@@ -15,7 +17,7 @@ class LoginFormCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.05),
+            color: isDark ? AppColors.kDarkShadowColor : AppColors.kShadowColor,
             blurRadius: 20,
             offset: const Offset(0, 4),
           ),

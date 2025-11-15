@@ -8,6 +8,7 @@ class LoginFormHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -22,7 +23,9 @@ class LoginFormHeader extends StatelessWidget {
         Text(
           'Sign in to access the TV display',
           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-            color: AppColors.kDarkTextSecondaryColor,
+            color: isDark
+                ? AppColors.kDarkTextSecondaryColor
+                : AppColors.kTextSecondaryColor,
           ),
           textAlign: TextAlign.center,
         ),

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:qms_tv_app/core/constants/app_colors.dart';
 import 'package:qms_tv_app/core/extensions/sizedbox_extension.dart';
 import 'package:qms_tv_app/core/router/app_routes.dart';
 import 'package:qms_tv_app/core/utils/custom_snackbar.dart';
@@ -79,7 +78,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
     final validator = ref.read(validationProvider.notifier);
 
     return CustomScaffold(
-      backgroundColor: AppColors.kDarkBackgroundColor,
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
