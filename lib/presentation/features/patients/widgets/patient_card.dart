@@ -62,12 +62,13 @@ class _PatientCardDesktopState extends State<PatientCardDesktop>
     final isSmallScreen = screenWidth < 600;
 
     // Responsive dimensions
-    final maxCardWidth = isSmallScreen ? screenWidth * 0.85 : 500.0;
-    final maxCardHeight = screenHeight * 0.8; // Take up 80% of screen height
-    final cardPadding = isSmallScreen ? 20.0 : 28.0;
-    final ticketFontSize = isSmallScreen ? 40.0 : 56.0;
-    final nameFontSize = isSmallScreen ? 22.0 : 28.0;
-    final arabicNameFontSize = isSmallScreen ? 18.0 : 22.0;
+    final maxCardWidth = isSmallScreen ? screenWidth * 0.85 : 600.0;
+    final maxCardHeight = screenHeight * 0.65;
+    final cardPadding = isSmallScreen ? 24.0 : 40.0;
+    final ticketFontSize = isSmallScreen ? 48.0 : 72.0;
+    final headerFontSize = isSmallScreen ? 16.0 : 20.0;
+    final nameFontSize = isSmallScreen ? 24.0 : 32.0;
+    final statusFontSize = isSmallScreen ? 20.0 : 28.0;
 
     return ConstrainedBox(
       constraints: BoxConstraints(
@@ -85,301 +86,146 @@ class _PatientCardDesktopState extends State<PatientCardDesktop>
               color: isDark
                   ? AppColors.kDarkSurfaceColor
                   : AppColors.kSurfaceColor,
-              borderRadius: BorderRadius.circular(28),
+              borderRadius: BorderRadius.circular(20),
               border: Border.all(
-                color: widget.statusColor.withValues(alpha: 0.5),
-                width: 3,
+                color: widget.statusColor.withValues(alpha: 0.7),
+                width: 4,
               ),
               boxShadow: [
                 BoxShadow(
-                  color: widget.statusColor.withValues(alpha: 0.25),
-                  blurRadius: 40,
-                  spreadRadius: 8,
-                  offset: const Offset(0, 20),
+                  color: widget.statusColor.withValues(alpha: 0.2),
+                  blurRadius: 30,
+                  spreadRadius: 5,
+                  offset: const Offset(0, 10),
                 ),
                 BoxShadow(
                   color: (isDark ? Colors.black : AppColors.kShadowColor)
-                      .withValues(alpha: 0.2),
-                  blurRadius: 20,
+                      .withValues(alpha: 0.15),
+                  blurRadius: 15,
                   spreadRadius: 0,
                 ),
               ],
             ),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
               mainAxisSize: MainAxisSize.min,
               children: [
-                // Ticket Number Label
+                // Bilingual Ticket Number Header
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Ticket Number',
+                      style: TextStyle(
+                        color: isDark
+                            ? AppColors.kDarkPrimaryColor
+                            : AppColors.kPrimaryColor,
+                        fontSize: headerFontSize,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    Text(
+                      'رقم التذكرة',
+                      style: TextStyle(
+                        color: isDark
+                            ? AppColors.kDarkPrimaryColor
+                            : AppColors.kPrimaryColor,
+                        fontSize: headerFontSize,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ],
+                ),
+                20.heightBox,
+                // Large Centered Ticket Number
                 Text(
-                  'Ticket Number',
+                  widget.patient.ticketNumber.toString(),
                   style: TextStyle(
                     color: isDark
-                        ? AppColors.kDarkTextTertiaryColor
-                        : AppColors.kTextTertiaryColor,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w500,
-                    letterSpacing: 1.2,
+                        ? AppColors.kDarkPrimaryColor
+                        : AppColors.kPrimaryColor,
+                    fontSize: ticketFontSize,
+                    fontWeight: FontWeight.w900,
+                    letterSpacing: 2,
                   ),
                   textAlign: TextAlign.center,
                 ),
-                if (widget.patient.ticketArabic?.isNotEmpty ?? false) ...[
-                  8.heightBox,
-                  Text(
-                    widget.patient.ticketArabic!,
-                    style: TextStyle(
-                      color: isDark
-                          ? AppColors.kDarkTextTertiaryColor
-                          : AppColors.kTextTertiaryColor,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                ],
-                12.heightBox,
-                // Ticket Number Container with Gradient
-                Container(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: isSmallScreen ? 20 : 28,
-                    vertical: isSmallScreen ? 14 : 18,
-                  ),
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [
-                        isDark
-                            ? AppColors.kDarkPrimaryColor
-                            : AppColors.kPrimaryColor,
-                        isDark
-                            ? AppColors.kDarkPrimaryDarkColor
-                            : AppColors.kPrimaryLightColor,
-                      ],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                    ),
-                    borderRadius: BorderRadius.circular(18),
-                    boxShadow: [
-                      BoxShadow(
-                        color:
-                            (isDark
-                                    ? AppColors.kDarkPrimaryColor
-                                    : AppColors.kPrimaryColor)
-                                .withValues(alpha: 0.5),
-                        blurRadius: 24,
-                        spreadRadius: 4,
-                        offset: const Offset(0, 12),
-                      ),
-                    ],
-                  ),
-                  child: Text(
-                    widget.patient.ticketNumber.toString(),
-                    style: TextStyle(
-                      color: AppColors.kTextOnPrimaryColor,
-                      fontSize: ticketFontSize,
-                      fontWeight: FontWeight.w900,
-                      letterSpacing: 3,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-                16.heightBox,
-                // Patient Name
+                24.heightBox,
+                // Patient Name (or Department name as location)
                 Text(
-                  widget.patient.name,
+                  widget.patient.department?.deptname ?? widget.patient.name,
                   style: TextStyle(
                     color: isDark
-                        ? AppColors.kDarkTextPrimaryColor
-                        : AppColors.kTextPrimaryColor,
+                        ? AppColors.kErrorColor
+                        : AppColors.kErrorColor,
                     fontSize: nameFontSize,
-                    fontWeight: FontWeight.w800,
+                    fontWeight: FontWeight.w700,
                     letterSpacing: 0.5,
                   ),
                   textAlign: TextAlign.center,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                 ),
-                if (widget.patient.nameArabic?.isNotEmpty ?? false) ...[
-                  12.heightBox,
-                  Text(
-                    widget.patient.nameArabic!,
-                    style: TextStyle(
-                      color: isDark
-                          ? AppColors.kDarkTextSecondaryColor
-                          : AppColors.kTextSecondaryColor,
-                      fontSize: arabicNameFontSize,
-                      fontWeight: FontWeight.w700,
-                    ),
-                    textAlign: TextAlign.center,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ],
-                10.heightBox,
-                // Department Badge
-                if (widget.patient.department != null)
-                  Container(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: isSmallScreen ? 16 : 20,
-                      vertical: isSmallScreen ? 10 : 12,
-                    ),
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [
-                          AppColors.kInfoColor.withValues(alpha: 0.2),
-                          AppColors.kInfoColor.withValues(alpha: 0.1),
-                        ],
-                      ),
-                      borderRadius: BorderRadius.circular(12),
-                      border: Border.all(
-                        color: AppColors.kInfoColor.withValues(alpha: 0.5),
-                        width: 1.5,
+                28.heightBox,
+                // Bilingual "Please Proceed To" Instructions
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'please proceed to',
+                      style: TextStyle(
+                        color: isDark
+                            ? AppColors.kDarkTextSecondaryColor
+                            : AppColors.kTextSecondaryColor,
+                        fontSize: isSmallScreen ? 12 : 14,
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
-                    child: Column(
-                      children: [
-                        Row(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Icon(
-                              Iconsax.hospital,
-                              color: AppColors.kInfoColor,
-                              size: 24,
-                            ),
-                            14.widthBox,
-                            Flexible(
-                              child: Text(
-                                widget.patient.department?.deptname ?? 'N/A',
-                                style: TextStyle(
-                                  color: AppColors.kInfoColor,
-                                  fontSize: isSmallScreen ? 14 : 16,
-                                  fontWeight: FontWeight.w600,
-                                  letterSpacing: 0.3,
-                                ),
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                          ],
-                        ),
-                        if (widget
-                                .patient
-                                .department
-                                ?.deptnameArabic
-                                ?.isNotEmpty ??
-                            false) ...[
-                          8.heightBox,
-                          Text(
-                            widget.patient.department!.deptnameArabic!,
-                            style: TextStyle(
-                              color: AppColors.kInfoColor.withValues(
-                                alpha: 0.85,
-                              ),
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                        ],
-                      ],
+                    Text(
+                      'اذهب إلى',
+                      style: TextStyle(
+                        color: isDark
+                            ? AppColors.kDarkTextSecondaryColor
+                            : AppColors.kTextSecondaryColor,
+                        fontSize: isSmallScreen ? 12 : 14,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
-                  ),
-                14.heightBox,
-                // Divider
-                Container(
-                  height: 1,
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [
-                        Colors.transparent,
-                        (isDark
-                                ? AppColors.kDarkTextTertiaryColor
-                                : AppColors.kTextTertiaryColor)
-                            .withValues(alpha: 0.2),
-                        Colors.transparent,
-                      ],
-                    ),
-                  ),
+                  ],
                 ),
-                12.heightBox,
-                // Status and Instructions
-                Text(
-                  'PLEASE PROCEED TO',
-                  style: TextStyle(
-                    color: isDark
-                        ? AppColors.kDarkTextTertiaryColor
-                        : AppColors.kTextTertiaryColor,
-                    fontSize: isSmallScreen ? 11 : 12,
-                    fontWeight: FontWeight.w600,
-                    letterSpacing: 1.5,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-                if (widget.patient.destinationArabic?.isNotEmpty ?? false) ...[
-                  6.heightBox,
-                  Text(
-                    'يرجى التوجه إلى',
-                    style: TextStyle(
-                      color: isDark
-                          ? AppColors.kDarkTextTertiaryColor
-                          : AppColors.kTextTertiaryColor,
-                      fontSize: 13,
-                      fontWeight: FontWeight.w500,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                ],
-                10.heightBox,
-                Container(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: isSmallScreen ? 18 : 24,
-                    vertical: isSmallScreen ? 16 : 20,
-                  ),
-                  decoration: BoxDecoration(
-                    color: widget.statusColor.withValues(alpha: 0.08),
-                    borderRadius: BorderRadius.circular(14),
-                    border: Border.all(
-                      color: widget.statusColor.withValues(alpha: 0.4),
-                      width: 2,
-                    ),
-                    boxShadow: [
-                      BoxShadow(
-                        color: widget.statusColor.withValues(alpha: 0.1),
-                        blurRadius: 16,
-                        spreadRadius: 0,
-                      ),
-                    ],
-                  ),
-                  child: Column(
-                    children: [
-                      Icon(
-                        widget.statusIcon,
-                        color: widget.statusColor,
-                        size: isSmallScreen ? 36 : 44,
-                      ),
-                      10.heightBox,
-                      Text(
+                16.heightBox,
+                // Bilingual Status/Destination Row
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: Text(
                         widget.patient.status.toUpperCase(),
                         style: TextStyle(
                           color: widget.statusColor,
-                          fontSize: isSmallScreen ? 18 : 22,
-                          fontWeight: FontWeight.w800,
-                          letterSpacing: 0.8,
+                          fontSize: statusFontSize,
+                          fontWeight: FontWeight.w900,
+                          letterSpacing: 1,
                         ),
-                        textAlign: TextAlign.center,
+                        textAlign: TextAlign.left,
                       ),
-                      if (widget.patient.statusArabic?.isNotEmpty ?? false) ...[
-                        8.heightBox,
-                        Text(
-                          widget.patient.statusArabic!,
-                          style: TextStyle(
-                            color: widget.statusColor.withValues(alpha: 0.9),
-                            fontSize: 18,
-                            fontWeight: FontWeight.w700,
-                          ),
-                          textAlign: TextAlign.center,
+                    ),
+                    Expanded(
+                      child: Text(
+                        widget.patient.statusArabic ??
+                            widget.patient.department?.deptnameArabic ??
+                            'الوجهة',
+                        style: TextStyle(
+                          color: widget.statusColor,
+                          fontSize: statusFontSize,
+                          fontWeight: FontWeight.w900,
                         ),
-                      ],
-                    ],
-                  ),
+                        textAlign: TextAlign.right,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
